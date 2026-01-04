@@ -1,0 +1,22 @@
+class sol:
+    def totalNQueens(self, n: int) -> int:
+        col = set()
+        posd, negd = set(), set()
+
+        res = 0
+        def backtrack(r):
+            if r==n:
+                nonlocal res
+                res+=1
+            for c in range(n):
+                if c in col or (r+c) in posd or (r-c) in negd:
+                    continue
+                col.add(c)
+                posd.add(r+c)
+                negd.add(r-c)
+                backtrack(r+1)
+                col.remove(c)
+                posd.remove(r+c)
+                negd.remove(r-c)
+        backtrack(0)
+        return res
