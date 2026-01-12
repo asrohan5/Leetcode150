@@ -1,6 +1,6 @@
 class sol:
     def minDistance(self, word1: str, word2: str) -> int:
-        cache = [[float('inf')] * len(word2)+1 for i in range(len(word1)+1)]
+        cache = [[float('inf')] * (len(word2)+1) for i in range(len(word1)+1)]
 
         for j in range(len(word2)+1):
             cache[len(word1)][j] = len(word2)-j
