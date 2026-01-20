@@ -1,26 +1,19 @@
 class LRUCache:
 
     def __init__(self, capacity: int):
-        self.cache = []
-        self.capacity = capacity
+        self.cache = OrderedDict()
+        self.cap = capacity
 
     def get(self, key: int) -> int:
-        for i in range(len(self.cache)):
-            if self.cache[i][0] == key:
-                tmp = self.cache.pop(i)
-                self.cache.append(tmp)
-                return tmp[1]
-        return -1
+        if key not in self.cache:
+            return -1
+        self.cache.move_to_end(key)
+        return self.cache[key]
 
     def put(self, key: int, value: int) -> None:
-        for i in range(len(self.cache)):
-            if self.cache[i][0] == key:
-                tmp = self.cache.pop(i)
-                tmp[1] = value
-                self.cache.append(tmp)
-                return
+        if key in self.cache:
+            self.cache.move_to_end(key)
+        self.cache[key] = value
 
-        if self.capacity == len(self.cache):
-            self.cache.pop(0)
-
-        self.cache.append([key, value])
+        if len(self.cache) > self.cap:
+            self.cache.popitem(last=False)
